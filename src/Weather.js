@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import Temperature from "./temperature";
 import "./Weather.css";
-import { useState } from "react";
 
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ loaded: false });
@@ -10,19 +10,14 @@ export default function Weather(props) {
   function handleResponse(response) {
     setWeatherData({
       loaded: true,
-      temperature: response.data.main.temp,
+      temperature: Math.round(response.data.main.temp),
       humidity: response.data.main.humidity,
-      date: new Date(response.data.dt * 1000),
+      date: new Date(response.data.dt * 1000).toDateString(),
       description: response.data.weather[0].description,
-      icon: response.data.weather[0].icon,
+      icon: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       wind: response.data.wind.speed,
       city: response.data.name,
     });
-  }
-
-  function search() {
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=a969311cfcbb4a83dfad2cf7478397f9&units=metric`;
-    axios.get(url).then(handleResponse);
   }
 
   function handleSubmit(event) {
@@ -34,9 +29,14 @@ export default function Weather(props) {
     setCity(event.target.value);
   }
 
+  function search() {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=a969311cfcbb4a83dfad2cf7478397f9&units=metric`;
+    axios.get(url).then(handleResponse);
+  }
+
   if (weatherData.loaded) {
     return (
-      <div className="container">
+      <div className="app">
         <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-9">
@@ -56,31 +56,23 @@ export default function Weather(props) {
             </div>
           </div>
         </form>
-        <h1>New York</h1>
+        <h1>{weatherData.city}</h1>
         <ul>
-          <li className="date-time">{props.weatherData.date}</li>
-          <li className="conditions">{props.weatherData.description}</li>
+          <li className="date-time">{weatherData.date}</li>
+          <li className="conditions">{weatherData.description}</li>
         </ul>
         <div className="row">
           <div className="col">
-            <div className="clearfix">
-              <div className="float-left">
-                <img
-                  src="https://openweathermap.org/img/wn/10d@2x.png"
-                  alt={props.weatherData.description}
-                  className="weather-icon"
-                />
-                <span className="temperature">
-                  {props.weatherData.temperature}
-                </span>
-                <span className="unit">°C</span>
-              </div>
-            </div>
+            <Temperature
+              icon={weatherData.icon}
+              celsius={weatherData.temperature}
+              description={weatherData.description}
+            />
           </div>
           <div className="col">
             <ul className="weather-description">
-              <li>`Humidity: ${props.weatherData.humidity}%`</li>
-              <li>`Wind: ${props.weatherData.wind}km/h`</li>
+              <li>Humidity: {weatherData.humidity}%</li>
+              <li>Wind: {weatherData.wind}km/h</li>
             </ul>
           </div>
         </div>

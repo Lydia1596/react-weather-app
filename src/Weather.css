@@ -1,4 +1,4 @@
-.container {
+.app {
   border: 1px solid rgb(150, 150, 150);
   margin: 0 auto;
   margin-top: 20px;
@@ -6,25 +6,30 @@
   padding: 20px;
 }
 
-h1 {
+.app .conditions {
+  text-transform: capitalize;
+}
+
+.app h1 {
   font-size: 30px;
   margin-bottom: 0;
   margin-top: 10px;
 }
 
-li {
+.app li {
   font-size: 16px;
 }
 
-.search-bar {
+.app .search-bar {
   height: 37px;
 }
 
-.temperature {
+.celsiusTemperature,
+.fahrenheitTemperature {
   font-size: 64px;
 }
 
-ul {
+.app ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -35,7 +40,7 @@ ul {
   top: -34px;
 }
 
-.weather-description {
+.app .weather-description {
   margin-top: 15px;
 }
 
