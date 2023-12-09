@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Temperature from "./temperature";
+import WeatherForecast from "./WeatherForecast";
+import FormattedDate from "./FormattedDate";
 import "./Weather.css";
 
 export default function Weather(props) {
@@ -12,11 +14,12 @@ export default function Weather(props) {
       loaded: true,
       temperature: Math.round(response.data.main.temp),
       humidity: response.data.main.humidity,
-      date: new Date(response.data.dt * 1000).toDateString(),
+      date: new Date(response.data.dt * 1000),
       description: response.data.weather[0].description,
       icon: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       wind: response.data.wind.speed,
       city: response.data.name,
+      coordinates: response.data.coord,
     });
   }
 
@@ -58,7 +61,9 @@ export default function Weather(props) {
         </form>
         <h1>{weatherData.city}</h1>
         <ul>
-          <li className="date-time">{weatherData.date}</li>
+          <li className="date-time">
+            <FormattedDate date={weatherData.date} />
+          </li>
           <li className="conditions">{weatherData.description}</li>
         </ul>
         <div className="row">
@@ -76,6 +81,7 @@ export default function Weather(props) {
             </ul>
           </div>
         </div>
+        <WeatherForecast coordinates={weatherData.coordinates} />
       </div>
     );
   } else {

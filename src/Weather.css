@@ -10,6 +10,10 @@
   text-transform: capitalize;
 }
 
+.app .forecast {
+  text-align: center;
+}
+
 .app h1 {
   font-size: 30px;
   margin-bottom: 0;
