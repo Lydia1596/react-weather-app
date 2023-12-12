@@ -39,6 +39,10 @@
   padding: 0;
 }
 
+.forecast-icon {
+  max-width: 70px;
+}
+
 .unit {
   position: relative;
   top: -34px;

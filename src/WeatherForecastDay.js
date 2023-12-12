@@ -13,7 +13,7 @@ export default function WeatherForecastDay(props) {
     <ul>
       <li>{date}</li>
       <li>
-        <img src={icon} alt={description} />
+        <img src={icon} alt={description} className="forecast-icon" />
       </li>
       <li>
         {maxTemperature}°C/
